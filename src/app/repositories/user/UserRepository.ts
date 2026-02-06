@@ -11,11 +11,8 @@ export class UserRepository implements IUserRepository {
     return await prisma.user.create({
       data: {
         name: data.name,
-        credits: 0,
         email: data.email,
         password: data.password,
-        brand_id: data.brand_id,
-        is_brand_owner: data.is_brand_owner,
       },
     });
   }
@@ -24,9 +21,9 @@ export class UserRepository implements IUserRepository {
     return await prisma.user.update({
       where: { id: data.id },
       data: {
-        ...(data.name !== undefined && { name: data.name }),
-        ...(data.email !== undefined && { email: data.email }),
-        ...(data.password !== undefined && { password: data.password }),
+        name: data.name,
+        email: data.email,
+        password: data.password,
       },
     });
   }

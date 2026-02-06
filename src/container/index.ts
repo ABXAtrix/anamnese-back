@@ -8,10 +8,9 @@ import type { IStorageProvider } from "../app/providers/blobStorage/IStorageProv
 import { BlobStorageProvider } from "../app/providers/blobStorage/BlobStorageProvider.js";
 import UpdateUserService from "../app/services/user/UpdateUserService.service.js";
 import DeleteUserService from "../app/services/user/DeleteUserService.service.js";
-import { FindByIdUserService } from "../app/services/user/FindByIdUserService.service.js";
-import { GetAllUserService } from "../app/services/user/GetAllUserService.service.js";
 import LoginAuthService from "../app/services/auth/LoginAuthService.service.js";
 import { MeAuthService } from "../app/services/auth/MeAuthService.service.js";
+import { GenerateJWTService } from "../app/services/auth/GenerateJWTService.service.js";
 import type { IMailProvider } from "../app/providers/mail/IMailProvider.js";
 import { MailProvider } from "../app/providers/mail/MailProvider.js";
 
@@ -26,23 +25,13 @@ container.registerSingleton<DeleteUserService>(
   DeleteUserService
 );
 
-container.registerSingleton<FindByIdUserService>(
-  "FindByIdUserService",
-  FindByIdUserService
-);
-
 container.registerSingleton<UpdateUserService>(
   "UpdateUserService",
   UpdateUserService
 );
 
-container.registerSingleton<GetAllUserService>(
-  "GetAllUserService",
-  GetAllUserService
-);
-
 container.registerSingleton<IUserRepository>(
-  "UserRepository", 
+  "UserRepository",
   UserRepository
 );
 
@@ -61,6 +50,11 @@ container.registerSingleton<LoginAuthService>(
 container.registerSingleton<MeAuthService>(
   "MeAuthService",
   MeAuthService
+);
+
+container.registerSingleton<GenerateJWTService>(
+  "GenerateJWTService",
+  GenerateJWTService
 );
 
 //* Mail Provider

@@ -13,7 +13,11 @@ import authRoutes from "./routes/auth.routes.js";
 //* Settings
 const server = Fastify({ logger: true });
 await server.register(cors, { origin: env.FRONTEND_URL });
-await server.register(jwt, { secret: env.JWT_SECRET });
+await server.register(jwt, {
+  secret: env.JWT_SECRET,
+  sign: { algorithm: "HS512", expiresIn: env.JWT_EXPIRES_IN },
+});
+
 server.setErrorHandler(errorHandler);
 
 //^ Routes

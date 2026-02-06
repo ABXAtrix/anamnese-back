@@ -4,10 +4,10 @@ export const createUserSchema = z.object({
   name: z
     .string()
     .min(3, "O nome deve ter pelo menos 3 caracteres")
-    .max(16, "O nome deve ter no máximo 16 caracteres")
+    .max(100, "O nome deve ter no máximo 100 caracteres")
     .trim(),
 
-  email: z.email("Formato de e-mail inválido").trim(),
+  email: z.string().email("Formato de e-mail inválido").trim(),
 
   password: z
     .string()
@@ -20,12 +20,4 @@ export const createUserSchema = z.object({
       /[^A-Za-z0-9]/,
       "A senha deve conter pelo menos um caractere especial"
     ),
-
-  brand_id: z.uuid("O identificador da marca é inválido!").trim(),
-
-  is_brand_owner: z.boolean(
-    "O campo que informa se o usuário é o dono da marca, deve possuir um valor booleano"
-  ),
 });
-
-// export type CreateUserSchema = z.infer<typeof createUserSchema>;

@@ -1,5 +1,6 @@
 import z from "zod";
 
+//TODO: Usar biblioteca especialista em regex.
 export const updateUserSchema = z.object({
   id: z.string("O ID do usuário deve ser uma string").trim(),
 
@@ -7,10 +8,9 @@ export const updateUserSchema = z.object({
     .string()
     .min(3, "O nome deve ter pelo menos 3 caracteres")
     .max(16, "O nome deve ter no máximo 16 caracteres")
-    .trim()
-    .optional(),
+    .trim(),
 
-  email: z.email("Formato de e-mail inválido").trim().optional(),
+  email: z.email("Formato de e-mail inválido").trim(),
 
   password: z
     .string()
@@ -21,7 +21,6 @@ export const updateUserSchema = z.object({
     .regex(/[0-9]/, "A senha deve conter pelo menos um número")
     .regex(
       /[^A-Za-z0-9]/,
-      "A senha deve conter pelo menos um caractere especial"
-    )
-    .optional(),
+      "A senha deve conter pelo menos um caractere especial",
+    ),
 });
