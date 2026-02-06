@@ -6,3 +6,85 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum ConsultationStatus {
+  DRAFT
+  SCHEDULED
+  CONFIRMED
+  CANCELED
+  COMPLETED
+}
+
+model User {
+  id String @id @default(uuid())
+
+  email    String @unique
+  name     String
+  password String
+
+  consultation Consultation[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+}
+
+model Patient {
+  id String @id @default(uuid())
+
+  name             String
+  email            String?
+  phone            String?
+  birthDate        DateTime? @map("birth_date")
+  aiHistorySummary String?   @map("ai_history_summary") @db.Text
+
+  consultation Consultation[]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("patient")
+}
+
+model Consultation {
+  id String @id @default(uuid())
+
+  userId                String  @map("user_id")
+  patientId             String  @map("patient_id")
+  aiSummary             String? @map("ai_summary") @db.Text
+  chiefComplaint        String? @map("chief_complaint") @db.Text
+  historyPresentIllness String? @map("history_present_illness") @db.Text
+  pastMedicalHistory    String? @map("past_medical_history") @db.Text
+  habits                String? @map("habits") @db.Text
+  physicalExam          String? @map("physical_exam") @db.Text
+
+  status ConsultationStatus @default(DRAFT)
+
+  user      User     @relation(fields: [userId], references: [id])
+  patient   Patient  @relation(fields: [patientId], references: [id])
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+// model ConsultationDocument {
+//   id String @id @default(uuid())
+
+//   consultationId String       @map("consultation_id")
+//   documentType   DocumentType @map("document_type")
+//   title          String
+//   content        String       @db.Text
+//   isApproved     Boolean      @default(false) @map("is_approved")
+//   approvedAt     DateTime?    @map("approved_at")
+//   createdAt      DateTime     @default(now()) @map("created_at")
+//   updatedAt      DateTime     @updatedAt @map("updated_at")
+
+//   consultation Consultation @relation(fields: [consultationId], references: [id], onDelete: Cascade)
+
+//   @@index([consultationId])
+//   @@map("consultation_documents")
+// }
+
+// enum DocumentType {
+//   anamnesis
+//   prescription
+//   report
+//   record
+//   summary
+// }
